@@ -1,0 +1,108 @@
+* {
+  margin: 0px;
+}
+
+.bg-detail{
+  background-image: url(../imagens/v1_34.png);
+  width: 100%;
+  height: 1400px;
+  position: absolute;
+  top: 500px;
+  opacity: 40%;
+  z-index: -1;
+}
+
+.logo{
+ margin-left: 35px; 
+ color: cornflowerblue;
+}
+
+.spanmonmey{
+  color: #ff9900;
+}
+
+.nav-font{
+  font-size: 1.3rem;
+  margin-right: 15px
+}
+
+
+
+.primeira-img{
+  width: 100%;
+}
+
+.texto1{
+  font-size: 2.6rem;
+  position: relative;
+  top: 155px;
+  left: 200px;
+  font-weight: bold;
+  color: #267dff;
+}
+
+.imagesec3{
+  width: 110px;
+}
+
+.textsec3{
+  color: #267dff;
+}
+
+.section2-titulo{
+  font-size: 3.4rem;
+  position: relative;
+  font-weight: bold;
+  color: #267dff;
+}
+
+.section2-subtitulo{
+  font-size: 2.4rem;
+  position: relative;
+  font-weight: bold;
+  color: #267dff;
+  margin-bottom: 30px;
+}
+
+.spantext{
+  font-weight: bold;
+}
+
+.section_reg{
+  padding-top: 125px;
+  padding-bottom: 125px;
+}
+
+.button_registro{
+  padding: 30px;
+  padding-left: 80px;
+  padding-right: 80px;
+  border-radius: 10px;
+  color: #267dff;
+  background-color: #b9f8d5;
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+.button_registro h4{
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 1440px) {
+  .firstsection{
+    margin-top: 125px;
+  }
+  
+  .bg-detail{
+    background-image: url(../imagens/v1_34.png);
+    width: 100%;
+    height: 1335px;
+    position: absolute;
+    top: 500px;
+    opacity: 40%;
+    z-index: -1;
+  }
+  
+  }
+

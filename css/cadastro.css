@@ -1,0 +1,86 @@
+.bg-detail{
+  background-image: url(../imagens/v1_34.png);
+  width: 100%;
+  height: -webkit-fill-available;
+  position: absolute;
+  opacity: 90%;
+  z-index: -1;
+}
+
+.logo{
+  margin-left: 35px; 
+  color: cornflowerblue;
+ }
+ 
+ .spanmonmey{
+   color: #ff9900;
+ }
+
+ .nav-font{
+  font-size: 1.3rem;
+  margin-right: 15px
+}
+
+.cadastro-entrar{
+position: relative;
+}
+
+.container {
+  width: 100vw;
+  height: 90vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  }
+  .box {
+  width: 800px;
+  height: 600px;
+  background: #fff;
+  border-radius: 20px;
+  }
+  body {
+  margin: 0px;
+  }
+  .right{
+    text-shadow: 0.5px 0.5px black;
+    color: white;
+    background-color: #006e18;
+    border-radius: 20px;
+    display: flow;
+    align-content: center;
+    text-align: center;
+    font-weight: bold;
+  }
+  .left{
+    display: flow;
+    align-content: center;
+    text-align: center;
+    font-weight: bold;
+  }
+  .button-cadastro{
+    text-shadow: 0.5px 0.5px black;
+    padding: 15px 30px 15px;
+    background: #006e18;
+    color: white;
+    border-color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    position: relative;
+    top: 20px;
+  }
+  .button-cadastro a{
+    text-decoration: none;
+    color: white;
+  }
+  .suacconta{
+    font-weight: bold;
+    color: #006e18;
+  }
+  .btn-entrar{
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 5px 80px 5px;
+    background: #006e18;
+    color: white;
+  }
