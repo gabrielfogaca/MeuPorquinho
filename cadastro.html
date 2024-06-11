@@ -49,18 +49,18 @@
           <h4 class="suacconta">Crie sua conta!</h4>
           <form>
             <div class="mb-3">
-              <label for="exampleInputnome1" class="form-label">Nome</label>
-              <input type="nome" class="form-control" id="exampleInputnome1" aria-describedby="nomeHelp">
+              <label for="exampleInputnome1" class="form-label">Email</label>
+              <input type="email" placeholder="seu@email.com" class="form-control" id="email" />
             </div>
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Email</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <label for="exampleInputEmail1" class="form-label">Senha</label>
+              <input type="password" placeholder="Senha" class="form-control" id="password" />
             </div>
             <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
+              <label for="exampleInputPassword1" class="form-label">Senha</label>
+              <input type="password" placeholder="Confirmar senha" id="confirmPassword" class="form-control">
             </div>
-            <a type="submit" href="Inicio.html" class="btn btn-entrar">
+            <a type="submit" class="btn btn-entrar" onclick="register()" id="register-button">
               CADASTRAR
             </a>
           </form>
@@ -69,5 +69,11 @@
     </div>
   </section>
 </body>
+
+<script src="js/cadastro.js"></script>
+<script src="js/validation.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+<script src="firebase-init.js"></script>
 
 </html>
