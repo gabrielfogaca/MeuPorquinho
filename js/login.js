@@ -37,14 +37,6 @@ function togglePasswordErrors() {
   const password = form.password().value;
 }
 
-// function toggleButtonsDisable() {
-//   const emailValid = isEmailValid();
-//   form.recoverPasswordButton().disabled = !emailValid;
-
-//   const passwordValid = isPasswordValid();
-//   form.loginButton().disabled = !emailValid || !passwordValid;
-// }
-
 function isEmailValid() {
   const email = form.email().value;
   if (!email) {

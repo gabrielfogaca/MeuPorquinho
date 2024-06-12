@@ -1,8 +1,8 @@
-// firebase.auth().onAuthStateChanged((user) => {
-//   if (user) {
-//     window.location.href = 'inicio.html';
-//   }
-// });
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    window.location.href = 'inicio.html';
+  }
+});
 
 function onChangeEmail() {
   const email = form.email().value;

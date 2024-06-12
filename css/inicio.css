@@ -1,3 +1,10 @@
+.bg-detail{
+  background-image: url(../imagens/v1_35-inicio.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-repeat: repeat-y;
+}
+
 .sidebar {
   height: 100%;
   width: 0;
@@ -76,3 +83,36 @@
    margin-right: 15px
  }
  
+.base-banner{
+  padding: 5px;
+}
+
+ .banner{
+  background-color: #7f7f7f5c;
+  height: auto;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px;
+ }
+
+ .container{
+  max-width: 1440px; !important
+ }
+
+ .list-item{
+  list-style-type: none;
+ }
+
+ .collection-div {
+  border: 1px solid #ccc;
+  margin: 10px;
+  padding: 10px;
+}
+
+.item-div {
+  margin: 5px 0;
+}
+
+.item-div p {
+  margin: 0;
+}
