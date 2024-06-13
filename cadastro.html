@@ -47,22 +47,40 @@
         </div>
         <div class="col-sm-8 left">
           <h4 class="suacconta">Crie sua conta!</h4>
-          <form>
+          <!-- <form id="passwordForm">
             <div class="mb-3">
               <label for="exampleInputnome1" class="form-label">Email</label>
               <input type="email" placeholder="seu@email.com" class="form-control" id="email" />
             </div>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Senha</label>
-              <input type="password" placeholder="Senha" class="form-control" id="password" />
+              <input type="password" placeholder="Senha" class="form-control" id="password" onchange="onChangePassword()" />
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Senha</label>
-              <input type="password" placeholder="Confirmar senha" id="confirmPassword" class="form-control">
+              <input type="password" placeholder="Confirmar senha" id="confirmPassword" class="form-control" onchange="onChangeConfirmPassword()">
             </div>
-            <a type="submit" class="btn btn-entrar" onclick="register()" id="register-button">
+            <button type="submit" class="btn btn-entrar" onclick="register()" id="register-button">
               CADASTRAR
-            </a>
+            </button>
+          </form> -->
+
+          <form id="passwordForm">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" placeholder="seu@email.com" class="form-control" id="email" required />
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Senha</label>
+              <input type="password" placeholder="Senha" class="form-control" id="password" required />
+            </div>
+            <div class="mb-3">
+              <label for="confirmPassword" class="form-label">Confirmar Senha</label>
+              <input type="password" placeholder="Confirmar senha" id="confirmPassword" class="form-control" required />
+            </div>
+            <button type="submit" class="btn btn-entrar" id="register-button" disabled>
+              CADASTRAR
+            </button>
           </form>
         </div>
       </div>
@@ -74,6 +92,11 @@
 <script src="js/validation.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
 <script src="firebase-init.js"></script>
+<script src="auth-guard.js"></script>
+<script src="loading.js"></script>
 
 </html>

@@ -1,5 +1,7 @@
 firebase.auth().onAuthStateChanged((user) => {
-  if (!user) {
-    window.location.href = '../../index.html';
+  for (let x = 0; x <= 1; x++) {
+    if (user) {
+      window.location.href = 'inicio.html';
+    }
   }
 });

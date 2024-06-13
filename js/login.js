@@ -1,11 +1,3 @@
-function onChangeEmail() {
-  toggleEmailErrors();
-}
-
-function onChangePassword() {
-  togglePasswordErrors();
-}
-
 function login() {
   firebase
     .auth()
