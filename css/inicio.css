@@ -116,3 +116,18 @@
 .item-div p {
   margin: 0;
 }
+
+.s2{
+  position: absolute;
+  visibility: hidden;
+}
+
+.total{
+  position: relative;
+  float: inline-end;
+}
+
+.totais{
+  position: relative;
+  text-align: end;
+}

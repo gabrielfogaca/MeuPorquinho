@@ -43,93 +43,26 @@
 
 <body class="bg-detail">
   <div class="container">
-    <div class="row base-banner">
-      <div class="col banner">
-        <h4>Metas de Economia:</h4>
-        <span>Objetivo: R$ 250.000,00</span>
-        <div class="row">
-          <div class="col">
-            <span>Prazo: Dezembro de 2026</span>
-          </div>
-          <div class="col">
-            <span>Saldo: R$ 40.000,00</span>
+    <div id="collectionsDiv">
+    </div>
+    <div class="container">
+      <div class="row base-banner">
+        <div class="col banner">
+          <div class="row">
+            <div class="col" id="despesas">
+            </div>
           </div>
         </div>
+        <div class="col banner">
+          <div class="row">
+            <div class="col" id="receitas">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-      </div>
-      <div class="col banner">
-        <div class="row">
-          <div class="col">
-            <h4>Saldo em Conta:</h4>
-          </div>
-          <div class="col">Valor:</div>
-        </div>
-        <div class="row">
-          <div class="col-1">XX</div>
-          <div class="col">Conta corrente:</div>
-          <div class="col">R$ 3000,00</div>
-        </div>
-        <div class="row">
-          <div class="col-1">XY</div>
-          <div class="col">Cartão Nubank:</div>
-          <div class="col">R$ 3535,00</div>
-        </div>
-      </div>
-    </div>
-    <div class="row base-banner">
-      <div class="col banner">
-        <div class="row">
-          <div class="col">
-            <h4>Despesas por Categoria:</h4>
-          </div>
-          <div class="col"><Span>Total: R$ 1100,00</Span></div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <ul class="list-group">
-              <li class="list-item">Automovel: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Educação: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Seguros: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Telefonia: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Vestuario: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Saude: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Aluguel: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Condomino: <SPan>R$ 50,00</SPan></li>
-            </ul>
-          </div>
-          <div class="col">
-            <ul class="list-group">
-              <li class="list-item">Outros: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Internet: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Outros: <SPan>R$ 50,00</SPan></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="col banner">
-        <div class="row">
-          <div class="col">
-            <h4>Receitas por Categoria:</h4>
-          </div>
-          <div class="col"><Span>Total: R$ 7635,00</Span></div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <ul class="list-group">
-              <li class="list-item">Salario: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Investimentos: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Aluguel de imoveis: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Aluguel: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Rendimentos: <SPan>R$ 50,00</SPan></li>
-              <li class="list-item">Outras receitas: <SPan>R$ 50,00</SPan></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="collectionsDiv"></div>
-  </div>
 
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -153,7 +86,13 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
 <script src="firebase-init.js"></script>
-<!-- <script src="auth-guard.js"></script> -->
+<script>
+  firebase.auth().onAuthStateChanged((user) => {
+    if (!user) {
+      window.location.href = 'home.html';
+    }
+  });
+</script>
 <script src="loading.js"></script>
 <script src="js/inicio.js"></script>
 
