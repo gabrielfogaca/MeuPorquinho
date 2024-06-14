@@ -30,10 +30,10 @@ function findTransactions(user) {
           // Filtrar e dividir transações em receitas e despesas
           let transacoes = snapshot.docs.map((doc) => doc.data());
           let receitas = transacoes.filter(
-            (transacao) => transacao.type === 'receita',
+            (transacao) => transacao.type === 'Receita',
           );
           let despesas = transacoes.filter(
-            (transacao) => transacao.type === 'despesa',
+            (transacao) => transacao.type === 'Despesa',
           );
 
           results[entry] = { receitas, despesas };
@@ -163,7 +163,7 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
 
       let saldoDiv = document.createElement('div');
       saldoDiv.className = 'col totais';
-      saldoDiv.textContent = `Saldo: R$ ${item.saldoincial}`;
+      saldoDiv.textContent = `Saldo: R$ ${item.saldoinicial}`;
       prazoSaldoDiv.appendChild(saldoDiv);
 
       collectionDiv.appendChild(prazoSaldoDiv);
@@ -212,13 +212,13 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
     if (!despesasContainer) {
       despesasContainer = document.createElement('div');
       despesasContainer.id = 'despesas';
-      despesasContainer.className = 'col banner'; // Adiciona a classe para manter o estilo
+      despesasContainer.className = 'col banner despesas'; // Adiciona a classe para manter o estilo
       parentDiv.appendChild(despesasContainer);
     }
     if (!receitasContainer) {
       receitasContainer = document.createElement('div');
       receitasContainer.id = 'receitas';
-      receitasContainer.className = 'col banner'; // Adiciona a classe para manter o estilo
+      receitasContainer.className = 'col banner receitas'; // Adiciona a classe para manter o estilo
       parentDiv.appendChild(receitasContainer);
     }
 

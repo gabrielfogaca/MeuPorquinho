@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/inicio.css">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/inicio.css">
+  <link rel="stylesheet" href="../css/metas.css">
 </head>
 
 <header>
@@ -16,12 +18,13 @@
     </div>
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-      <a href="Item/metas.html">Metas</a>
-      <a href="Item/transacoes.html">transacoes</a>
-      <a href="Item/contas.html">Contas</a>
+      <a href="../Inicio.html">Inicio</a>
+      <a href="metas.html">Metas</a>
+      <a href="transacoes.html">transacoes</a>
+      <a href="contas.html">Contas</a>
     </div>
 
-    <a href="home.html" class="navbar-brand d-flex w-50 mr-auto log">
+    <a href="../home.html" class="navbar-brand d-flex w-50 mr-auto log">
       <h1 class="logo">
         Ca<span class="spanmonmey">$</span>hControl
       </h1>
@@ -40,35 +43,28 @@
 </header>
 
 <body class="bg-detail">
-  <div class="container">
-    <div id="collectionsDiv">
-    </div>
-    <div class="container">
-      <div class="row base-banner">
-        <div class="col banner despesas">
-          <div class="row">
-            <div class="col" id="despesas">
-            </div>
-          </div>
-        </div>
-        <div class="col banner receitas">
-          <div class="row">
-            <div class="col" id="receitas">
-            </div>
-          </div>
-        </div>
+  <div class="container mt-5">
+    <h2 class="mb-4">Metas</h2>
+    <form id="transactionForm">
+      <div class="form-group">
+        <label for="objetivo">Objetivo</label>
+        <input type="number" class="form-control" id="objetivo" placeholder="Digite o objetivo" required>
       </div>
-    </div>
+      <div class="form-group">
+        <label for="prazo">Prazo</label>
+        <input type="date" class="form-control" id="prazo" required>
+      </div>
+      <div class="form-group">
+        <label for="saldo">Saldo</label>
+        <input type="number" class="form-control" id="saldoinicial" placeholder="Digite o saldo" required>
+      </div>
+      <button type="submit" class="btn btn-success">Enviar</button>
+    </form>
   </div>
 
-  <div class="container">
-    <div class="row"></div>
-    <div class="row">
-      <img class="piggy" src="imagens/piggybank.gif" alt="sabrinaporquinha">
-    </div>
-    <div class="row"></div>
+  <div id="listenerform">
+    <div id="metascadastradas"></div>
   </div>
-
 
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -91,7 +87,9 @@
 <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
-<script src="firebase-init.js"></script>
+<script src="../firebase-init.js"></script>
+<script src="../loading.js"></script>
+<script src="../js/metas.js"></script>
 <script>
   firebase.auth().onAuthStateChanged((user) => {
     if (!user) {
@@ -99,9 +97,5 @@
     }
   });
 </script>
-<script src="loading.js"></script>
-<script src="js/inicio.js"></script>
-
-
 
 </html>

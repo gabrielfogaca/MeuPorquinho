@@ -1,0 +1,15 @@
+.editar{
+  float: inline-end;
+  position: relative;
+  padding: initial;
+  top: -35px;
+}
+
+.excluir{
+  float: inline-end;
+  position: relative;
+  padding: initial;
+  top: -35px;
+  right: 5px;
+}
+

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/inicio.css">
+  <link rel="stylesheet" href="../css/metas.css">
+</head>
+
+<header>
+  <nav class="navbar navbar-dark bg-dark navbar-expand-md bg-faded justify-content-center">
+    <div id="main">
+      <button class="openbtn" onclick="openNav()">☰</button>
+    </div>
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      <a href="../Inicio.html">Inicio</a>
+      <a href="metas.html">Metas</a>
+      <a href="transacoes.html">transacoes</a>
+      <a href="contas.html">Contas</a>
+    </div>
+
+    <a href="../home.html" class="navbar-brand d-flex w-50 mr-auto log">
+      <h1 class="logo">
+        Ca<span class="spanmonmey">$</span>hControl
+      </h1>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar3">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+      <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link nav-font clear" onclick="logout()">Sair</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<body class="bg-detail">
+  <form>
+    <div class="container">
+      <div class="form-group">
+        <h3 for="transactionType">Transação</h3><br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="type" id="Despesa" checked>
+          <label class="form-check-label" for="expense">Despesa</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="type" id="Receita">
+          <label class="form-check-label" for="income">Receita</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Data da transação</label><br>
+        <input type="date" class="form-control" id="date">
+      </div>
+
+      <div class="form-group">
+        <label for="value">Valor</label><br>
+        <input class="form-control" id="value" placeholder="00.00">
+      </div>
+
+      <div class="form-group">
+        <label for="transactionType">Tipo de transação</label><br>
+        <select class="form-control" id="transaction-type" onchange="onChangeTransactionType()">
+          <option value="">-- Selecione um tipo de transação --</option>
+          <option>Automóvel</option>
+          <option>Bem Estar</option>
+          <option>Educação</option>
+          <option>Empregados</option>
+          <option>Familiares Diversas</option>
+          <option>Impostos e Tarifas</option>
+          <option>Investimentos</option>
+          <option>Custódia</option>
+          <option>Custos operacionais</option>
+          <option>Despesas com imóveis</option>
+          <option>IOF</option>
+          <option>IR</option>
+          <option>Perdas</option>
+          <option>Lazer</option>
+          <option>Moradia</option>
+          <option>Outras Despesas</option>
+          <option>Pessoais</option>
+          <option>Previdência</option>
+          <option>Saúde</option>
+          <option>Seguros</option>
+          <option>Telefonia</option>
+          <option>Transporte</option>
+          <option>Vestuário</option>
+          <option>Aluguel</option>
+          <option>Investimentos</option>
+          <option>Ajuste Diário</option>
+          <option>Aluguel de imóveis</option>
+          <option>Bonificação</option>
+          <option>Dividendos</option>
+          <option>JSCP</option>
+          <option>Juros</option>
+          <option>Participação de Debêntures</option>
+          <option>Prêmios de Debêntures</option>
+          <option>Proventos de ações</option>
+          <option>Proventos de fundos</option>
+          <option>Rendimentos</option>
+          <option>Lucros</option>
+          <option>Outras Receitas</option>
+          <option>Pró-labore</option>
+          <option>Salário</option>
+        </select>
+        <div class="invalid-feedback" id="transaction-type-required-error">
+          Tipo de transação é obrigatório
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descrição</label><br>
+        <input type="text" class="form-control" id="description">
+      </div>
+
+      <button type="button" class="btn btn-primary" id="save-button" onclick="saveTransaction()">
+        Salvar
+      </button>
+      <button type="button" class="btn btn-secondary" onclick="history.back()">
+        Cancelar
+      </button>
+    </div>
+  </form>
+
+  <div id="listenerform">
+    <div id="transacoescadastradas"></div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </script>
+  <script>
+    function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+<script src="../firebase-init.js"></script>
+<script src="../loading.js"></script>
+<script src="../js/transacoes.js"></script>
+<script>
+  firebase.auth().onAuthStateChanged((user) => {
+    if (!user) {
+      window.location.href = 'home.html';
+    }
+  });
+</script>
+
+
+</html>

@@ -131,3 +131,16 @@
   position: relative;
   text-align: end;
 }
+
+.receitas{
+  background-color: #6bc2725c;
+}
+
+.despesas{
+  background-color: #c26b6b5c;
+}
+
+.piggy{
+  margin: 0 auto;
+  width: 150px;
+}
