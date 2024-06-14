@@ -6,7 +6,7 @@ function logout() {
     .auth()
     .signOut()
     .then(() => {
-      window.location.href = 'home.html';
+      window.location.href = '../home.html';
     })
     .catch(() => {
       alert('Erro ao fazer logout');

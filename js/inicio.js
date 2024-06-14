@@ -17,59 +17,56 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 function findTransactions(user) {
+  let collections = ['metas', 'contas', 'transacoes'];
   let results = {};
 
-  // Função para buscar uma coleção específica com filtro pelo userId
-  function fetchCollection(collectionName) {
+  let promises = collections.map(function (entry) {
     return firebase
       .firestore()
-      .collection(collectionName)
+      .collection(entry)
+      .where('user.uid', '==', user.uid) // Filtra os documentos pelo UID do usuário logado
       .get()
       .then((snapshot) => {
-        let filteredData = [];
-
-        snapshot.forEach((doc) => {
-          let data = doc.data();
-
-          // Verifica se o objeto possui o campo 'user' e 'uid' é igual ao do usuário atual
-          if (data.user && data.user.uid === user.uid) {
-            filteredData.push(data);
-          }
-        });
-
-        if (collectionName === 'transacoes') {
+        if (entry === 'transacoes') {
           // Filtrar e dividir transações em receitas e despesas
-          let receitas = filteredData.filter(
+          let transacoes = snapshot.docs.map((doc) => doc.data());
+          let receitas = transacoes.filter(
             (transacao) => transacao.type === 'Receita',
           );
-          let despesas = filteredData.filter(
+          let despesas = transacoes.filter(
             (transacao) => transacao.type === 'Despesa',
           );
 
-          results[collectionName] = { receitas, despesas };
+          results[entry] = { receitas, despesas };
         } else {
-          results[collectionName] = filteredData;
+          results[entry] = snapshot.docs.map((doc) => doc.data());
         }
       });
-  }
+  });
 
-  // Array de coleções para buscar
-  let collections = ['metas', 'contas', 'transacoes'];
+  Promise.all(promises).then(() => {
+    let allEmpty = true;
 
-  // Array de promessas para esperar todas as consultas serem concluídas
-  let promises = collections.map((collectionName) =>
-    fetchCollection(collectionName),
-  );
+    // Verifica se todos os arrays dentro de results estão vazios
+    for (let key in results) {
+      if (
+        results[key].length > 0 ||
+        (results[key].receitas && results[key].receitas.length > 0) ||
+        (results[key].despesas && results[key].despesas.length > 0)
+      ) {
+        allEmpty = false;
+        break;
+      }
+    }
 
-  // Executa todas as promessas em paralelo
-  Promise.all(promises)
-    .then(() => {
-      console.log(results); // Mostra os resultados no console (opcional)
-      createDivsForCollections(results); // Chama a função para criar as divs com os resultados filtrados
-    })
-    .catch((error) => {
-      console.error('Erro ao buscar as coleções:', error);
-    });
+    if (allEmpty) {
+      const parentDiv = document.getElementById('collectionsDiv');
+      parentDiv.innerHTML =
+        '<div class="container banner text-banner">Não existem metas, contas ou transações cadastradas. Começe cadastrando suas METAS!<br><a type="button" class="btn btn-primary" href="item/metas.html">METAS</a></div>';
+    } else {
+      createDivsForCollections(results);
+    }
+  });
 }
 
 function createDivsForCollections(results) {
