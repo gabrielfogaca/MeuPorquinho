@@ -17,36 +17,59 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 function findTransactions(user) {
-  let collections = ['metas', 'contas', 'transacoes'];
   let results = {};
 
-  let promises = collections.map(function (entry) {
+  // Função para buscar uma coleção específica com filtro pelo userId
+  function fetchCollection(collectionName) {
     return firebase
       .firestore()
-      .collection(entry)
+      .collection(collectionName)
       .get()
       .then((snapshot) => {
-        if (entry === 'transacoes') {
+        let filteredData = [];
+
+        snapshot.forEach((doc) => {
+          let data = doc.data();
+
+          // Verifica se o objeto possui o campo 'user' e 'uid' é igual ao do usuário atual
+          if (data.user && data.user.uid === user.uid) {
+            filteredData.push(data);
+          }
+        });
+
+        if (collectionName === 'transacoes') {
           // Filtrar e dividir transações em receitas e despesas
-          let transacoes = snapshot.docs.map((doc) => doc.data());
-          let receitas = transacoes.filter(
+          let receitas = filteredData.filter(
             (transacao) => transacao.type === 'Receita',
           );
-          let despesas = transacoes.filter(
+          let despesas = filteredData.filter(
             (transacao) => transacao.type === 'Despesa',
           );
 
-          results[entry] = { receitas, despesas };
+          results[collectionName] = { receitas, despesas };
         } else {
-          results[entry] = snapshot.docs.map((doc) => doc.data());
+          results[collectionName] = filteredData;
         }
       });
-  });
+  }
 
-  Promise.all(promises).then(() => {
-    console.log(results);
-    createDivsForCollections(results);
-  });
+  // Array de coleções para buscar
+  let collections = ['metas', 'contas', 'transacoes'];
+
+  // Array de promessas para esperar todas as consultas serem concluídas
+  let promises = collections.map((collectionName) =>
+    fetchCollection(collectionName),
+  );
+
+  // Executa todas as promessas em paralelo
+  Promise.all(promises)
+    .then(() => {
+      console.log(results); // Mostra os resultados no console (opcional)
+      createDivsForCollections(results); // Chama a função para criar as divs com os resultados filtrados
+    })
+    .catch((error) => {
+      console.error('Erro ao buscar as coleções:', error);
+    });
 }
 
 function createDivsForCollections(results) {

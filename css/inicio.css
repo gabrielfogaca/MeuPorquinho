@@ -125,6 +125,7 @@
 .total{
   position: relative;
   float: inline-end;
+  padding: 10px;
 }
 
 .totais{
