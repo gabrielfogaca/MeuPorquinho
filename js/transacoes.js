@@ -26,17 +26,17 @@ firebase.auth().onAuthStateChanged((user) => {
   }
 });
 
-function findtransacoes(user) {
+function findTransacoes(user) {
   firebase
     .firestore()
     .collection('transacoes')
+    .where('user.uid', '==', user.uid) // Filtra as transações pelo UID do usuário logado
     .get()
     .then((snapshot) => {
       let transacoes = snapshot.docs.map((doc) => ({
         ...doc.data(),
         uid: doc.id,
       }));
-      console.log(transacoes);
       createDivsFortransacoes(transacoes);
     })
     .catch((error) => {

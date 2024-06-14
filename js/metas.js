@@ -23,6 +23,7 @@ function findMetas(user) {
   firebase
     .firestore()
     .collection('metas')
+    .where('user.uid', '==', user.uid) // Filtrar as metas pelo UID do usuário logado
     .get()
     .then((snapshot) => {
       let metas = snapshot.docs.map((doc) => ({

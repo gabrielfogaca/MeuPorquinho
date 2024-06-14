@@ -30,6 +30,7 @@ function findContas(user) {
   firebase
     .firestore()
     .collection('contas')
+    .where('user.uid', '==', user.uid) // Filtrar as contas pelo UID do usuário logado
     .get()
     .then((snapshot) => {
       let contas = snapshot.docs.map((doc) => ({
