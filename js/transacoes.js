@@ -18,7 +18,7 @@ function logout() {
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    findtransacoes(user);
+    findTransacoes(user);
     if (!isNewTransaction()) {
       const uid = getTransactionUid();
       findtransacoesByUid(uid);

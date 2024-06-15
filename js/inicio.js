@@ -118,16 +118,26 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
     collectionName.charAt(0).toUpperCase() + collectionName.slice(1);
   collectionDiv.appendChild(title);
 
+  let botaonovo = document.createElement('button');
+  botaonovo.className = 'btn btn-primary float-right buttonclass';
+  botaonovo.textContent = '+';
+  botaonovo.addEventListener('click', () => {
+    window.location.href = 'item/' + collectionName + '.html';
+  });
+  collectionDiv.appendChild(botaonovo);
+
   // Verifica o tipo de coleção e estrutura o HTML de acordo
   if (collectionName === 'metas') {
     // Estrutura para Metas de Economia
     collectionData.forEach((item) => {
+      let divisa = document.createElement('br');
       let objetivo = document.createElement('span');
       objetivo.style = 'margin: 15px;';
       objetivo.textContent = `Objetivo: ${item.objetivo.toLocaleString(
         'pt-BR',
         { style: 'currency', currency: 'BRL' },
       )}`;
+      collectionDiv.appendChild(divisa);
       collectionDiv.appendChild(objetivo);
 
       let prazoSaldoDiv = document.createElement('div');
@@ -163,8 +173,16 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
       prazoSaldoDiv.appendChild(progresso);
 
       collectionDiv.appendChild(prazoSaldoDiv);
+      let divisa2 = document.createElement('br');
+      collectionDiv.appendChild(divisa2);
     });
   } else if (collectionName === 'contas') {
+    let divisa3 = document.createElement('br');
+    collectionDiv.appendChild(divisa3);
+
+    let divisa4 = document.createElement('br');
+    collectionDiv.appendChild(divisa4);
+
     // Estrutura para Saldo em Conta
     let rowDiv = document.createElement('div');
     rowDiv.className = 'row';

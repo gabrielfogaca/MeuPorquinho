@@ -119,6 +119,7 @@
 
 .transacoes{
   position: absolute;
+  width: 2px;
   visibility: hidden;
 }
 
@@ -142,9 +143,8 @@
 }
 
 .piggy{
-  background-image: url(../imagens/piggybank.gif);
   margin: 0 auto;
-  width: 150px;
+  width: 100px;
 }
 
 .text-banner{
@@ -180,4 +180,9 @@
   margin-top: 20px;
   position: relative;
   margin: 0 auto; /* Centraliza o canvas */
+}
+
+.buttonclass{
+  position: relative;
+  top: -25px;
 }
