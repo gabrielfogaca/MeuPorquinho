@@ -225,7 +225,7 @@ function update(transaction) {
 
 function createTransaction() {
   return {
-    objetivo: document.getElementById('objetivo').value,
+    objetivo: parseFloat(document.getElementById('objetivo').value),
     prazo: document.getElementById('prazo').value,
     saldoinicial: parseFloat(document.getElementById('saldoinicial').value),
     user: {

@@ -108,47 +108,6 @@ function createDivsForCollections(results) {
   parentDiv.appendChild(mainDiv);
 }
 
-// Função para criar uma div de coleção (como Metas, Contas, Transações, etc.)
-function createDivsForCollections(results) {
-  // Obtenha a referência da div pai onde você deseja adicionar as divs das coleções
-  const parentDiv = document.getElementById('collectionsDiv');
-
-  // Limpe o conteúdo atual da div pai, se houver
-  parentDiv.innerHTML = '';
-
-  // Crie a div principal
-  let mainDiv = document.createElement('div');
-  mainDiv.className = 'container';
-
-  // Itere sobre as coleções em pares de duas
-  for (let i = 0; i < Object.keys(results).length; i += 2) {
-    // Crie uma nova div para cada par de coleções
-    let rowDiv = document.createElement('div');
-    rowDiv.className = 'row base-banner s' + i;
-
-    // Verifique se há coleção suficiente para a primeira coluna
-    if (i < Object.keys(results).length) {
-      let collectionName1 = Object.keys(results)[i];
-      let collectionData1 = results[collectionName1];
-      createCollectionDiv(collectionName1, collectionData1, rowDiv);
-    }
-
-    // Verifique se há coleção suficiente para a segunda coluna
-    if (i + 1 < Object.keys(results).length) {
-      let collectionName2 = Object.keys(results)[i + 1];
-      let collectionData2 = results[collectionName2];
-      createCollectionDiv(collectionName2, collectionData2, rowDiv);
-    }
-
-    // Adicione a rowDiv à div principal
-    mainDiv.appendChild(rowDiv);
-  }
-
-  // Adicione a div principal à div pai
-  parentDiv.appendChild(mainDiv);
-}
-
-// Função para criar uma div de coleção (como Metas, Contas, Transações, etc.)
 function createCollectionDiv(collectionName, collectionData, parentDiv) {
   let collectionDiv = document.createElement('div');
   collectionDiv.className = 'col banner ' + collectionName;
@@ -164,7 +123,11 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
     // Estrutura para Metas de Economia
     collectionData.forEach((item) => {
       let objetivo = document.createElement('span');
-      objetivo.textContent = `Objetivo: R$ ${item.objetivo}`;
+      objetivo.style = 'margin: 15px;';
+      objetivo.textContent = `Objetivo: ${item.objetivo.toLocaleString(
+        'pt-BR',
+        { style: 'currency', currency: 'BRL' },
+      )}`;
       collectionDiv.appendChild(objetivo);
 
       let prazoSaldoDiv = document.createElement('div');
@@ -183,8 +146,21 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
 
       let saldoDiv = document.createElement('div');
       saldoDiv.className = 'col totais';
-      saldoDiv.textContent = `Saldo: R$ ${item.saldoinicial}`;
+      saldoDiv.textContent = `Saldo: ${item.saldoinicial.toLocaleString(
+        'pt-BR',
+        { style: 'currency', currency: 'BRL' },
+      )}`;
       prazoSaldoDiv.appendChild(saldoDiv);
+      // Cria a barra de progresso
+      let progresso = document.createElement('div');
+      progresso.className = 'progress-bar-container';
+      let progressoBarra = document.createElement('div');
+      progressoBarra.className = 'progress-bar';
+      let percentual = (item.saldoinicial / item.objetivo) * 100;
+      progressoBarra.style.width = `${percentual}%`;
+      progressoBarra.textContent = `${percentual.toFixed(2)}%`;
+      progresso.appendChild(progressoBarra);
+      prazoSaldoDiv.appendChild(progresso);
 
       collectionDiv.appendChild(prazoSaldoDiv);
     });
@@ -218,7 +194,10 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
 
       let valueDiv = document.createElement('div');
       valueDiv.className = 'col totais';
-      valueDiv.textContent = `Valor:  R$ ${item.valor}`;
+      valueDiv.textContent = `Valor: ${item.valor.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      })}`;
       rowDiv.appendChild(valueDiv);
 
       collectionDiv.appendChild(rowDiv);
@@ -227,6 +206,7 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
     // Obtém as divs existentes para despesas e receitas
     let despesasContainer = document.getElementById('despesas');
     let receitasContainer = document.getElementById('receitas');
+    let geralmesContainer = document.getElementById('geralmes'); // Obtém a div geralmes
 
     // Verifica se as divs existem, se não, cria-as
     if (!despesasContainer) {
@@ -254,7 +234,10 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
       let totalAmount = transactions.reduce((acc, item) => acc + item.valor, 0);
       let totalSpan = document.createElement('span');
       totalSpan.className = 'total';
-      totalSpan.textContent = `Total: R$ ${totalAmount.toFixed(2)}`;
+      totalSpan.textContent = `Total: ${totalAmount.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      })}`;
       transacoesDiv.appendChild(totalSpan);
 
       let ul = document.createElement('ul');
@@ -264,7 +247,12 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
         transactions.forEach((item) => {
           let li = document.createElement('li');
           li.className = 'list-item';
-          li.textContent = `${item.transactiontype}: R$ ${item.valor}`;
+          li.textContent = `${
+            item.transactiontype
+          }: ${item.valor.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          })}`;
           ul.appendChild(li);
         });
       } else {
@@ -279,7 +267,12 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
     }
 
     // Adiciona as despesas
+    let totalDespesas = 0;
     if (collectionData.despesas && collectionData.despesas.length > 0) {
+      totalDespesas = collectionData.despesas.reduce(
+        (acc, item) => acc + item.valor,
+        0,
+      );
       createTransactionList(
         collectionData.despesas,
         despesasContainer,
@@ -288,12 +281,92 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
     }
 
     // Adiciona as receitas
+    let totalReceitas = 0;
     if (collectionData.receitas && collectionData.receitas.length > 0) {
+      totalReceitas = collectionData.receitas.reduce(
+        (acc, item) => acc + item.valor,
+        0,
+      );
       createTransactionList(
         collectionData.receitas,
         receitasContainer,
         'Receitas por Categoria:',
       );
+    }
+
+    // Adiciona os totais gerais na div geralmes
+    if (geralmesContainer) {
+      let resumoDiv = document.createElement('div');
+      resumoDiv.className = 'col resumo-mes';
+
+      let resumoTitle = document.createElement('h4');
+      resumoTitle.textContent = 'Resumo do Mês';
+      resumoDiv.appendChild(resumoTitle);
+
+      let totalDespesasSpan = document.createElement('div');
+      totalDespesasSpan.textContent = `Total Despesas: ${totalDespesas.toLocaleString(
+        'pt-BR',
+        {
+          style: 'currency',
+          currency: 'BRL',
+        },
+      )}`;
+      resumoDiv.appendChild(totalDespesasSpan);
+
+      let totalReceitasSpan = document.createElement('div');
+      totalReceitasSpan.textContent = `Total Receitas: ${totalReceitas.toLocaleString(
+        'pt-BR',
+        {
+          style: 'currency',
+          currency: 'BRL',
+        },
+      )}`;
+      resumoDiv.appendChild(totalReceitasSpan);
+
+      // Adiciona o gráfico de pizza
+      let canvas = document.createElement('canvas');
+      canvas.id = 'resumoGrafico';
+      canvas.className = 'canva-ajuste';
+      canvas.style.width = '250px'; // Ajuste a largura desejada
+      canvas.style.height = '250px'; // Ajuste a altura desejada
+      resumoDiv.appendChild(canvas);
+
+      geralmesContainer.appendChild(resumoDiv);
+
+      // Cria o gráfico de pizza usando Chart.js
+      let ctx = document.getElementById('resumoGrafico').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Despesas', 'Receitas'],
+          datasets: [
+            {
+              data: [totalDespesas, totalReceitas],
+              backgroundColor: ['#ff6384', '#36a2eb'],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+          },
+        },
+      });
+
+      let saldoMesSpan = document.createElement('span');
+      let saldoMes = totalReceitas - totalDespesas;
+      saldoMesSpan.className = 'total';
+      saldoMesSpan.textContent = `Saldo do Mês: ${saldoMes.toLocaleString(
+        'pt-BR',
+        {
+          style: 'currency',
+          currency: 'BRL',
+        },
+      )}`;
+      resumoDiv.appendChild(saldoMesSpan);
     }
   }
 

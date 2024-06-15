@@ -117,7 +117,7 @@
   margin: 0;
 }
 
-.s2{
+.transacoes{
   position: absolute;
   visibility: hidden;
 }
@@ -142,10 +142,42 @@
 }
 
 .piggy{
+  background-image: url(../imagens/piggybank.gif);
   margin: 0 auto;
   width: 150px;
 }
 
 .text-banner{
   text-align: center;
+}
+
+/* Estilo para o contêiner da barra de progresso */
+.progress-bar-container {
+  width: 97%;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+/* Estilo para a barra de progresso */
+.progress-bar {
+  height: 20px;
+  background-color: #4caf50;
+  text-align: center;
+  color: white;
+  line-height: 20px; /* Isso alinha o texto verticalmente no centro */
+  border-radius: 5px; /* Adiciona bordas arredondadas */
+  transition: width 0.3s; /* Adiciona uma transição suave quando a largura mudar */
+}
+
+
+.row{
+  margin-left: 0px; !important
+}
+
+.canva-ajuste{
+  margin-top: 20px;
+  position: relative;
+  margin: 0 auto; /* Centraliza o canvas */
 }
