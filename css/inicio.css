@@ -186,3 +186,9 @@
   position: relative;
   top: -25px;
 }
+
+.monthpickclass{
+  position: relative;
+    margin: 0 auto;
+    text-align: center;
+}

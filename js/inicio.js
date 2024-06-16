@@ -1,3 +1,34 @@
+document.addEventListener('DOMContentLoaded', (event) => {
+  setCurrentMonth();
+  fetchInitialData(); // Fetch initial data with the current month
+  findTransactions();
+});
+
+function setCurrentMonth() {
+  const monthPicker = document.getElementById('monthPicker');
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  monthPicker.value = `${year}-${month}`;
+}
+
+function fetchInitialData() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      const selectedMonth = document.getElementById('monthPicker').value;
+      findTransactions(user, selectedMonth);
+    }
+  });
+}
+
+document.getElementById('fetchDataBtn').addEventListener('click', () => {
+  const user = firebase.auth().currentUser;
+  if (user) {
+    const selectedMonth = document.getElementById('monthPicker').value;
+    findTransactions(user, selectedMonth);
+  }
+});
+
 function logout() {
   firebase
     .auth()
@@ -12,11 +43,13 @@ function logout() {
 
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
-    findTransactions(user);
+    clearDivs();
   }
 });
 
-function findTransactions(user) {
+function findTransactions(user, selectedMonth) {
+  console.log('Selected Month:', selectedMonth); // Exibe o mês selecionado no console
+
   let collections = ['metas', 'contas', 'transacoes'];
   let results = {};
 
@@ -27,17 +60,36 @@ function findTransactions(user) {
       .where('user.uid', '==', user.uid) // Filtra os documentos pelo UID do usuário logado
       .get()
       .then((snapshot) => {
-        if (entry === 'transacoes') {
-          // Filtrar e dividir transações em receitas e despesas
-          let transacoes = snapshot.docs.map((doc) => doc.data());
-          let receitas = transacoes.filter(
-            (transacao) => transacao.type === 'Receita',
-          );
-          let despesas = transacoes.filter(
-            (transacao) => transacao.type === 'Despesa',
-          );
+        if (entry === 'transacoes' || entry === 'contas') {
+          // Filtrar e dividir transações em receitas e despesas ou contas
+          let documents = snapshot.docs.map((doc) => doc.data());
+          // Filtrar pelo mês selecionado
+          let filteredDocuments = documents.filter((doc) => {
+            if (entry === 'transacoes') {
+              // Para transações, extraímos o mês e o ano da data completa
+              let docDate = new Date(doc.data);
+              let docMonth = `${docDate.getFullYear()}-${String(
+                docDate.getMonth() + 1,
+              ).padStart(2, '0')}`;
+              return docMonth === selectedMonth;
+            } else {
+              // Para contas, comparamos diretamente o mês
+              return doc.data === selectedMonth;
+            }
+          });
 
-          results[entry] = { receitas, despesas };
+          if (entry === 'transacoes') {
+            let receitas = filteredDocuments.filter(
+              (transacao) => transacao.type === 'Receita',
+            );
+            let despesas = filteredDocuments.filter(
+              (transacao) => transacao.type === 'Despesa',
+            );
+
+            results[entry] = { receitas, despesas };
+          } else {
+            results[entry] = filteredDocuments;
+          }
         } else {
           results[entry] = snapshot.docs.map((doc) => doc.data());
         }
@@ -64,55 +116,65 @@ function findTransactions(user) {
       parentDiv.innerHTML =
         '<div class="container banner text-banner">Não existem metas, contas ou transações cadastradas. Começe cadastrando suas METAS!<br><a type="button" class="btn btn-primary" href="item/metas.html">METAS</a></div>';
     } else {
+      console.log(results);
       createDivsForCollections(results);
     }
   });
 }
 
-function createDivsForCollections(results) {
-  // Obtenha a referência da div pai onde você deseja adicionar as divs das coleções
-  const parentDiv = document.getElementById('collectionsDiv');
+function clearDivs() {
+  const divsToClear = [
+    'metas',
+    'contas',
+    'transacoes',
+    'despesas',
+    'receitas',
+    'geralmes',
+  ];
+  divsToClear.forEach((divId) => {
+    const div = document.getElementById(divId);
+    if (div) {
+      div.innerHTML = '';
+    }
+  });
+}
 
-  // Limpe o conteúdo atual da div pai, se houver
+function createDivsForCollections(results) {
+  clearDivs();
+
+  const parentDiv = document.getElementById('collectionsDiv');
   parentDiv.innerHTML = '';
 
-  // Crie a div principal
   let mainDiv = document.createElement('div');
   mainDiv.className = 'container';
 
-  // Itere sobre as coleções em pares de duas
   for (let i = 0; i < Object.keys(results).length; i += 2) {
-    // Crie uma nova div para cada par de coleções
     let rowDiv = document.createElement('div');
     rowDiv.className = 'row base-banner';
 
-    // Verifique se há coleção suficiente para a primeira coluna
     if (i < Object.keys(results).length) {
       let collectionName1 = Object.keys(results)[i];
       let collectionData1 = results[collectionName1];
       createCollectionDiv(collectionName1, collectionData1, rowDiv);
     }
 
-    // Verifique se há coleção suficiente para a segunda coluna
     if (i + 1 < Object.keys(results).length) {
       let collectionName2 = Object.keys(results)[i + 1];
       let collectionData2 = results[collectionName2];
       createCollectionDiv(collectionName2, collectionData2, rowDiv);
     }
 
-    // Adicione a rowDiv à div principal
     mainDiv.appendChild(rowDiv);
   }
 
-  // Adicione a div principal à div pai
   parentDiv.appendChild(mainDiv);
 }
 
 function createCollectionDiv(collectionName, collectionData, parentDiv) {
+  console.log(collectionData);
   let collectionDiv = document.createElement('div');
   collectionDiv.className = 'col banner ' + collectionName;
 
-  // Crie um título para a coleção
   let title = document.createElement('h4');
   title.textContent =
     collectionName.charAt(0).toUpperCase() + collectionName.slice(1);
@@ -126,9 +188,7 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
   });
   collectionDiv.appendChild(botaonovo);
 
-  // Verifica o tipo de coleção e estrutura o HTML de acordo
   if (collectionName === 'metas') {
-    // Estrutura para Metas de Economia
     collectionData.forEach((item) => {
       let divisa = document.createElement('br');
       let objetivo = document.createElement('span');
@@ -161,7 +221,7 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
         { style: 'currency', currency: 'BRL' },
       )}`;
       prazoSaldoDiv.appendChild(saldoDiv);
-      // Cria a barra de progresso
+
       let progresso = document.createElement('div');
       progresso.className = 'progress-bar-container';
       let progressoBarra = document.createElement('div');
@@ -183,7 +243,6 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
     let divisa4 = document.createElement('br');
     collectionDiv.appendChild(divisa4);
 
-    // Estrutura para Saldo em Conta
     let rowDiv = document.createElement('div');
     rowDiv.className = 'row';
 
@@ -195,7 +254,6 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
 
     collectionDiv.appendChild(rowDiv);
 
-    // Itens individuais de contas
     collectionData.forEach((item) => {
       let rowDiv = document.createElement('div');
       rowDiv.className = 'row';
@@ -221,26 +279,23 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
       collectionDiv.appendChild(rowDiv);
     });
   } else if (collectionName === 'transacoes') {
-    // Obtém as divs existentes para despesas e receitas
     let despesasContainer = document.getElementById('despesas');
     let receitasContainer = document.getElementById('receitas');
-    let geralmesContainer = document.getElementById('geralmes'); // Obtém a div geralmes
+    let geralmesContainer = document.getElementById('geralmes');
 
-    // Verifica se as divs existem, se não, cria-as
     if (!despesasContainer) {
       despesasContainer = document.createElement('div');
       despesasContainer.id = 'despesas';
-      despesasContainer.className = 'col banner despesas'; // Adiciona a classe para manter o estilo
+      despesasContainer.className = 'col banner despesas';
       parentDiv.appendChild(despesasContainer);
     }
     if (!receitasContainer) {
       receitasContainer = document.createElement('div');
       receitasContainer.id = 'receitas';
-      receitasContainer.className = 'col banner receitas'; // Adiciona a classe para manter o estilo
+      receitasContainer.className = 'col banner receitas';
       parentDiv.appendChild(receitasContainer);
     }
 
-    // Função para criar a lista de transações
     function createTransactionList(transactions, container, title) {
       let transacoesDiv = document.createElement('div');
       transacoesDiv.className = 'col';
@@ -284,7 +339,6 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
       container.appendChild(transacoesDiv);
     }
 
-    // Adiciona as despesas
     let totalDespesas = 0;
     if (collectionData.despesas && collectionData.despesas.length > 0) {
       totalDespesas = collectionData.despesas.reduce(
@@ -298,7 +352,6 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
       );
     }
 
-    // Adiciona as receitas
     let totalReceitas = 0;
     if (collectionData.receitas && collectionData.receitas.length > 0) {
       totalReceitas = collectionData.receitas.reduce(
@@ -312,7 +365,6 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
       );
     }
 
-    // Adiciona os totais gerais na div geralmes
     if (geralmesContainer) {
       let resumoDiv = document.createElement('div');
       resumoDiv.className = 'col resumo-mes';
@@ -341,26 +393,46 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
       )}`;
       resumoDiv.appendChild(totalReceitasSpan);
 
-      // Adiciona o gráfico de pizza
       let canvas = document.createElement('canvas');
       canvas.id = 'resumoGrafico';
       canvas.className = 'canva-ajuste';
-      canvas.style.width = '250px'; // Ajuste a largura desejada
-      canvas.style.height = '250px'; // Ajuste a altura desejada
+      canvas.style.width = '250px';
+      canvas.style.height = '250px';
       resumoDiv.appendChild(canvas);
 
       geralmesContainer.appendChild(resumoDiv);
 
-      // Cria o gráfico de pizza usando Chart.js
+      if (Chart.getChart('resumoGrafico')) {
+        Chart.getChart('resumoGrafico').destroy();
+      }
+
       let ctx = document.getElementById('resumoGrafico').getContext('2d');
+
+      // Prepare the data for the pie chart
+      let chartData = [];
+      let chartLabels = [];
+      let backgroundColors = [];
+
+      collectionData.despesas.forEach((item) => {
+        chartLabels.push(`Despesa: ${item.description}`);
+        chartData.push(item.valor);
+        backgroundColors.push('#ff6384'); // Red for expenses
+      });
+
+      collectionData.receitas.forEach((item) => {
+        chartLabels.push(`Receita: ${item.description}`);
+        chartData.push(item.valor);
+        backgroundColors.push('#36a2eb'); // Blue for revenues
+      });
+
       new Chart(ctx, {
         type: 'pie',
         data: {
-          labels: ['Despesas', 'Receitas'],
+          labels: chartLabels,
           datasets: [
             {
-              data: [totalDespesas, totalReceitas],
-              backgroundColor: ['#ff6384', '#36a2eb'],
+              data: chartData,
+              backgroundColor: backgroundColors,
             },
           ],
         },
@@ -368,7 +440,7 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
           responsive: true,
           plugins: {
             legend: {
-              position: 'top',
+              position: 'bottom',
             },
           },
         },
@@ -388,6 +460,5 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
     }
   }
 
-  // Adicione a coleção à div pai
   parentDiv.appendChild(collectionDiv);
 }

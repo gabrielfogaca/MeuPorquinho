@@ -18,7 +18,7 @@
     <div id="mySidebar" class="sidebar">
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
       <a href="Item/metas.html">Metas</a>
-      <a href="Item/transacoes.html">transacoes</a>
+      <a href="Item/transacoes.html">Transacoes</a>
       <a href="Item/contas.html">Contas</a>
     </div>
 
@@ -33,6 +33,9 @@
     <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
       <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
         <li class="nav-item">
+          <a class="nav-link nav-font clear" href="Inicio.html">inicio</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link nav-font clear" onclick="logout()">Sair</a>
         </li>
       </ul>
@@ -42,14 +45,23 @@
 
 <body class="bg-detail">
   <div class="container">
-    <div id="collectionsDiv">
-    </div>
-    <div class="container">
-      <div class="row"></div>
-      <div class="row">
-        <img class="piggy" src="imagens/piggybank.gif" alt="sabrinaporquinha">
+    <div class="row">
+      <div class="col">
       </div>
-      <div class="row"></div>
+      <div class="col-5">
+        <div class="monthpickclass">
+          <div class="banner">
+            <input type="month" id="monthPicker" />
+            <button id="fetchDataBtn" class="btn btn-primary">Selecionar Mês</button>
+          </div>
+        </div>
+      </div>
+      <div class="col"></div>
+    </div>
+  </div>
+  </div>
+  <div class="container">
+    <div id="collectionsDiv">
     </div>
     <div class="container">
       <div class="row base-banner">
@@ -66,9 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="container">
-        <div class="row banner novadiv" id="geralmes"></div>
-      </div>
+      <div class="row banner novadiv" id="geralmes"></div>
     </div>
   </div>
 
