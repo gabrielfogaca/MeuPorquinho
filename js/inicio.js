@@ -48,7 +48,7 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 function findTransactions(user, selectedMonth) {
-  console.log('Selected Month:', selectedMonth); // Exibe o mês selecionado no console
+  // console.log('Selected Month:', selectedMonth); // Exibe o mês selecionado no console
 
   let collections = ['metas', 'contas', 'transacoes'];
   let results = {};
@@ -115,6 +115,9 @@ function findTransactions(user, selectedMonth) {
       const parentDiv = document.getElementById('collectionsDiv');
       parentDiv.innerHTML =
         '<div class="container banner text-banner">Não existem metas, contas ou transações cadastradas. Começe cadastrando suas METAS!<br><a type="button" class="btn btn-primary" href="item/metas.html">METAS</a></div>';
+      const parentDiv2 = document.getElementById('geralmes');
+      parentDiv2.innerHTML =
+        '<div class="container banner text-banner">Não existem transações criadas no momento. Preencha suas despesas e receitas clicando no botão abaixo!<br><a type="button" class="btn btn-primary" href="item/transacoes.html">Transações</a></div>';
     } else {
       console.log(results);
       createDivsForCollections(results);
@@ -279,6 +282,7 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
       collectionDiv.appendChild(rowDiv);
     });
   } else if (collectionName === 'transacoes') {
+    checkCollectionData(collectionData, collectionName);
     let despesasContainer = document.getElementById('despesas');
     let receitasContainer = document.getElementById('receitas');
     let geralmesContainer = document.getElementById('geralmes');
@@ -462,3 +466,21 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
 
   parentDiv.appendChild(collectionDiv);
 }
+
+function checkCollectionData(collectionData, collectionName) {
+  if (collectionName === 'transacoes') {
+    if (isCollectionDataEmpty(collectionData)) {
+      clearDivs();
+      const parentDiv2 = document.getElementById('nothinghere');
+      parentDiv2.innerHTML =
+        '<div class="container banner text-banner">Não existem transações criadas no momento. Preencha suas despesas e receitas clicando no botão abaixo!<br><a type="button" class="btn btn-primary" href="item/transacoes.html">Transações</a></div>';
+    } else {
+      console.log('dados encontrados na coleção');
+    }
+  }
+}
+
+function isCollectionDataEmpty(data) {
+  return data.receitas.length === 0 && data.despesas.length === 0;
+}
+checkCollectionData(collectionData, collectionName);

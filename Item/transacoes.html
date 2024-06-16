@@ -45,7 +45,7 @@
 </header>
 
 <body class="bg-detail">
-  <form>
+  <!-- <form>
     <div class="container">
       <div class="form-group">
         <h3 for="transactionType">Transação</h3><br>
@@ -127,8 +127,99 @@
       <button type="button" class="btn btn-primary" id="save-button" onclick="saveTransaction()">
         Salvar
       </button>
-      <button type="button" class="btn btn-secondary" onclick="history.back()">
-        Cancelar
+    </div>
+  </form> -->
+
+  <form>
+    <div class="container">
+      <div class="form-group">
+        <h3 for="transactionType">Transação</h3><br>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="type" id="Despesa" checked>
+          <label class="form-check-label" for="expense">Despesa</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="type" id="Receita">
+          <label class="form-check-label" for="income">Receita</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Data da transação</label><br>
+        <input type="date" class="form-control" id="date">
+        <div class="invalid-feedback" id="date-required-error">
+          Data da transação é obrigatória
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="value">Valor</label><br>
+        <input class="form-control" id="value" placeholder="00.00">
+        <div class="invalid-feedback" id="value-required-error">
+          Valor é obrigatório
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="transactionType">Tipo de transação</label><br>
+        <select class="form-control" id="transaction-type">
+          <option value="">-- Selecione um tipo de transação --</option>
+          <option>Automóvel</option>
+          <option>Bem Estar</option>
+          <option>Educação</option>
+          <option>Empregados</option>
+          <option>Familiares Diversas</option>
+          <option>Impostos e Tarifas</option>
+          <option>Investimentos</option>
+          <option>Custódia</option>
+          <option>Custos operacionais</option>
+          <option>Despesas com imóveis</option>
+          <option>IOF</option>
+          <option>IR</option>
+          <option>Perdas</option>
+          <option>Lazer</option>
+          <option>Moradia</option>
+          <option>Outras Despesas</option>
+          <option>Pessoais</option>
+          <option>Previdência</option>
+          <option>Saúde</option>
+          <option>Seguros</option>
+          <option>Telefonia</option>
+          <option>Transporte</option>
+          <option>Vestuário</option>
+          <option>Aluguel</option>
+          <option>Investimentos</option>
+          <option>Ajuste Diário</option>
+          <option>Aluguel de imóveis</option>
+          <option>Bonificação</option>
+          <option>Dividendos</option>
+          <option>JSCP</option>
+          <option>Juros</option>
+          <option>Participação de Debêntures</option>
+          <option>Prêmios de Debêntures</option>
+          <option>Proventos de ações</option>
+          <option>Proventos de fundos</option>
+          <option>Rendimentos</option>
+          <option>Lucros</option>
+          <option>Outras Receitas</option>
+          <option>Pró-labore</option>
+          <option>Salário</option>
+        </select>
+        <div class="invalid-feedback" id="transaction-type-required-error">
+          Tipo de transação é obrigatório
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descrição</label><br>
+        <input type="text" class="form-control" id="description">
+        <div class="invalid-feedback" id="description-required-error">
+          Descrição é obrigatória
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" id="save-button" onclick="saveTransaction()">
+        Salvar
       </button>
     </div>
   </form>

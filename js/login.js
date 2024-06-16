@@ -13,7 +13,10 @@ function login() {
 function getErrorMessage(error) {
   if (error.code == 'auth/internal-error') {
     return 'Usuário ou senha incorretos';
+  } else if (error.code == 'auth/invalid-login-credentials') {
+    return 'Usuário ou senha incorretos';
   }
+
   return error.message;
 }
 

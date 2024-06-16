@@ -193,12 +193,53 @@ function fillTransactionScreen(transacoes) {
 }
 
 function saveTransaction() {
-  const transacoes = createTransaction();
+  const date = document.getElementById('date');
+  const value = document.getElementById('value');
+  const transactionType = document.getElementById('transaction-type');
+  const description = document.getElementById('description');
 
-  if (isNewTransaction()) {
-    save(transacoes); // Salva uma nova conta
+  let valid = true;
+
+  if (!date.value) {
+    valid = false;
+    document.getElementById('date-required-error').style.display = 'block';
   } else {
-    update(transacoes); // Atualiza uma conta existente
+    document.getElementById('date-required-error').style.display = 'none';
+  }
+
+  if (!value.value) {
+    valid = false;
+    document.getElementById('value-required-error').style.display = 'block';
+  } else {
+    document.getElementById('value-required-error').style.display = 'none';
+  }
+
+  if (!transactionType.value) {
+    valid = false;
+    document.getElementById('transaction-type-required-error').style.display =
+      'block';
+  } else {
+    document.getElementById('transaction-type-required-error').style.display =
+      'none';
+  }
+
+  if (!description.value) {
+    valid = false;
+    document.getElementById('description-required-error').style.display =
+      'block';
+  } else {
+    document.getElementById('description-required-error').style.display =
+      'none';
+  }
+
+  if (valid) {
+    const transacoes = createTransaction();
+
+    if (isNewTransaction()) {
+      save(transacoes); // Salva uma nova conta
+    } else {
+      update(transacoes); // Atualiza uma conta existente
+    }
   }
 }
 
