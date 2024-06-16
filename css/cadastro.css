@@ -84,3 +84,8 @@ position: relative;
     background: #006e18;
     color: white;
   }
+
+  .piggy{
+    margin: 0 auto;
+    width: 50px;
+  }
