@@ -191,21 +191,6 @@ function saveTransaction() {
   }
 }
 
-function save(transaction) {
-  showLoading();
-
-  db.collection('metas')
-    .add(transaction)
-    .then(() => {
-      hideLoading();
-      window.location.href = 'metas.html';
-    })
-    .catch(() => {
-      hideLoading();
-      alert('Erro ao salvar transação');
-    });
-}
-
 function update(transaction) {
   showLoading();
   const uid = getTransactionUid();
@@ -220,6 +205,21 @@ function update(transaction) {
     .catch(() => {
       hideLoading();
       alert('Erro ao atualizar transação');
+    });
+}
+
+function save(transaction) {
+  showLoading();
+
+  db.collection('metas')
+    .add(transaction)
+    .then(() => {
+      hideLoading();
+      window.location.href = 'metas.html';
+    })
+    .catch(() => {
+      hideLoading();
+      alert('Erro ao salvar transação');
     });
 }
 

@@ -119,7 +119,6 @@ function findTransactions(user, selectedMonth) {
       parentDiv2.innerHTML =
         '<div class="container banner text-banner">Não existem transações criadas no momento. Preencha suas despesas e receitas clicando no botão abaixo!<br><a type="button" class="btn btn-primary" href="item/transacoes.html">Transações</a></div>';
     } else {
-      console.log(results);
       createDivsForCollections(results);
     }
   });
