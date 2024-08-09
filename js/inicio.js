@@ -173,7 +173,7 @@ function createDivsForCollections(results) {
 }
 
 function createCollectionDiv(collectionName, collectionData, parentDiv) {
-  console.log(collectionData);
+  // console.log(collectionData);
   let collectionDiv = document.createElement('div');
   collectionDiv.className = 'col banner ' + collectionName;
 
@@ -466,15 +466,19 @@ function createCollectionDiv(collectionName, collectionData, parentDiv) {
   parentDiv.appendChild(collectionDiv);
 }
 
+checkCollectionData(collectionData, collectionName);
+
 function checkCollectionData(collectionData, collectionName) {
   if (collectionName === 'transacoes') {
     if (isCollectionDataEmpty(collectionData)) {
+      // console.log(collectionData);
       clearDivs();
       const parentDiv2 = document.getElementById('nothinghere');
       parentDiv2.innerHTML =
         '<div class="container banner text-banner">Não existem transações criadas no momento. Preencha suas despesas e receitas clicando no botão abaixo!<br><a type="button" class="btn btn-primary" href="item/transacoes.html">Transações</a></div>';
     } else {
-      console.log('dados encontrados na coleção');
+      const parentDiv3 = document.getElementById('nothinghere');
+      parentDiv3.style = 'display: none;';
     }
   }
 }
@@ -482,4 +486,3 @@ function checkCollectionData(collectionData, collectionName) {
 function isCollectionDataEmpty(data) {
   return data.receitas.length === 0 && data.despesas.length === 0;
 }
-checkCollectionData(collectionData, collectionName);
